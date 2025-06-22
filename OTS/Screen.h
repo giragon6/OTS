@@ -16,6 +16,6 @@ public:
 	int getHeight() const;
 
 	void getScreenPixels(uint32_t pixelBuf[]);
-	Pixel getPixelAtScreenPosition(int x, int y);
+	uint32_t getPixelAtScreenPosition(int x, int y);
 };
 

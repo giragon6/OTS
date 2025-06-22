@@ -23,11 +23,11 @@ void Screen::getScreenPixels(uint32_t pixelBuf[]) {
 }
 
 // TODO: make this return an int holy memory inefficiency
-Pixel Screen::getPixelAtScreenPosition(const int x, const int y)
+uint32_t Screen::getPixelAtScreenPosition(const int x, const int y)
 {
 	if (x < 0 || x >= width || y < 0 || y >= height) {
 		std::cerr << "Error: Coordinates (" << x << ", " << y << ") are out of bounds for screen resolution (" << width << ", " << height << ")." << std::endl;
-		return { 0, 0, 0, 0, 0 };
+		return 0;
 	}
 	return platform.getDesktopPixelAt(x, y);
 }

@@ -56,14 +56,18 @@ void Platform::getConsoleResolution(int& width, int& height) {
 	height = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
 }
 
-Pixel Platform::getDesktopPixelAt(int x, int y) {
+void Platform::clearConsole() {
+	std::cout << "\033[H"; 
+}
+
+uint32_t Platform::getDesktopPixelAt(int x, int y) {
 	COLORREF color = GetPixel(desktopDC, x, y);
 	ReleaseDC(NULL, desktopDC);
 	unsigned short int a = 100;
 	unsigned short int r = GetRValue(color);
 	unsigned short int g = GetGValue(color);
 	unsigned short int b = GetBValue(color);
-	return { x, y, a, r, g, b };
+	return (a << 24) | (r << 16) | (g << 8) | b;
 }
 
 void Platform::getDesktopPixels(uint32_t pixels[]) {
