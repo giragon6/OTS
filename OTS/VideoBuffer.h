@@ -22,7 +22,7 @@ public:
 
 	void push(const Pixel pixel);
 	void push(std::vector<Pixel> pixels);
-	void push(uint32_t pixels[], size_t pixelArraySize);
+	int push(uint32_t pixels[], size_t pixelArraySize); // TODO: use enum
 
 	static void downscaleWithAveraging(const uint32_t* src,
 		int srcWidth,

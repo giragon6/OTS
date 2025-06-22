@@ -1,5 +1,7 @@
 #include "VideoBuffer.h"
 #include <iostream>
+#include "App.h"
+#include <string>
 
 VideoBuffer::VideoBuffer(int width, int height) : width(width), height(height), buffer(nullptr), size(0) {  
 	if (width <= 0 || height <= 0) {  
@@ -44,6 +46,9 @@ void VideoBuffer::render() {
 		std::cerr << "Error: Buffer is empty or not initialized." << std::endl;
 		return;
 	}
+	std::string screen;
+	screen.reserve(size * 32);
+
 	for (int y = 0; y < height; y += 2) {
 		for (int x = 0; x < width; ++x) {
 			size_t i_top = y * width + x;
@@ -60,12 +65,17 @@ void VideoBuffer::render() {
 			int bottom_g = (bottom_pixel >> 8) & 0xFF;
 			int bottom_b = bottom_pixel & 0xFF;
 
-			std::cout << "\033[38;2;" << top_r << ";" << top_g << ";" << top_b << "m"
-				<< "\033[48;2;" << bottom_r << ";" << bottom_g << ";" << bottom_b << "m"
-				<< "\xDC";
+			screen += "\033[38;2;" + std::to_string(top_r)
+				+ ";" + std::to_string(top_g)
+				+ ";" + std::to_string(top_b) + "m";
+			screen += "\033[48;2;" + std::to_string(bottom_r)
+				+ ";" + std::to_string(bottom_g)
+				+ ";" + std::to_string(bottom_b) + "m";
+			screen += "\xDC";
 		}
-		std::cout << "\033[0m" << std::endl;
+		screen += "\033[0m\n";
 	}
+	std::cout << screen;
 }
 
 void VideoBuffer::empty() {
@@ -102,22 +112,23 @@ void VideoBuffer::push(std::vector<Pixel> pixels) {
 	}
 }
 
-void VideoBuffer::push(uint32_t pixels[], size_t pixelArraySize) {
+int VideoBuffer::push(uint32_t pixels[], size_t pixelArraySize) {
 	if (!buffer || size == 0) {
 		std::cerr << "Error: Buffer is empty or not initialized." << std::endl;
-		return;
+		return -1;
 	}
 	if (!pixels) {
 		std::cerr << "Error: Provided pixel array is null." << std::endl;
-		return;
+		return -1;
 	}
 	if (pixelArraySize != size) {
 		std::cerr << "Error: Provided pixel array size does not match buffer size." << std::endl;
-		return;
+		return -1;
 	}
 	for (size_t i = 0; i < size; ++i) {
 		buffer[i] = pixels[i];
 	}
+	return 0;
 }
 
 void VideoBuffer::downscaleWithAveraging(

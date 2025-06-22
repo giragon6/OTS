@@ -1,4 +1,6 @@
 #include <iostream>
+#include <chrono>
+#include <thread>
 
 #include "App.h"
 #include "VideoBuffer.h"
@@ -7,12 +9,7 @@
 App::App(Platform platform) : videoBuffer(videoBuffer), platform(platform), screen(platform) {};
 
 AppState App::init() {
-	int dw, dh;
-	platform.getDesktopResolution(dw, dh);
-	//int cw, ch;
-	//platform.getConsoleResolution(cw, ch);
-	//videoBuffer = new VideoBuffer(cw, ch);
-	videoBuffer = new VideoBuffer(80, 45);
+	videoBuffer = new VideoBuffer(120, 55);
 	if (!videoBuffer) {
 		std::cerr << "Error: Failed to initialize VideoBuffer." << std::endl;
 		return AppState::INIT_ERROR; 
@@ -31,18 +28,36 @@ AppState App::run() {
 
 	int srcWidth = platform.getWidth();
 	int srcHeight = platform.getHeight();
-	int dstWidth = 80;  
-	int dstHeight = 45; 
+	int dstWidth = videoBuffer->getWidth();  
+	int dstHeight = videoBuffer->getHeight(); 
 
 	uint32_t* srcPixels = new uint32_t[srcWidth * srcHeight];
-	platform.getDesktopPixels(srcPixels);
+	uint32_t * dstPixels = new uint32_t[dstWidth * dstHeight];
 
-	uint32_t* dstPixels = new uint32_t[dstWidth * dstHeight];
-	VideoBuffer::downscaleWithAveraging(srcPixels, srcWidth, srcHeight, dstPixels, dstWidth, dstHeight);
+	auto lastFrame = std::chrono::steady_clock::now();
+	const auto frameDuration = std::chrono::milliseconds(333);
 
-	videoBuffer->push(dstPixels, dstWidth * dstHeight);
+	while (true) {
+		auto now = std::chrono::steady_clock::now();
+		if (now - lastFrame >= frameDuration) {
+			videoBuffer->empty();
 
-	videoBuffer->render();
+			platform.getDesktopPixels(srcPixels);
+
+			VideoBuffer::downscaleWithAveraging(srcPixels, srcWidth, srcHeight, dstPixels, dstWidth, dstHeight);
+
+			videoBuffer->push(dstPixels, dstWidth * dstHeight);
+			
+			platform.clearConsole();
+
+			videoBuffer->render();
+
+			lastFrame = now;
+		}
+		else {
+			std::this_thread::sleep_for(std::chrono::milliseconds(1));
+		}
+	}
 
 	delete[] srcPixels;
 	delete[] dstPixels;
