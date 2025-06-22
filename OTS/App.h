@@ -1,6 +1,7 @@
 #pragma once
 #include "VideoBuffer.h"
 #include "Platform.h"
+#include "Screen.h"
 enum class AppState
 {
 	INIT,
@@ -16,8 +17,9 @@ class App
 private:
 	VideoBuffer* videoBuffer;
 	Platform platform;
+	Screen screen;
 public:
-	App() = default;
+	App(Platform platform);
 	~App() = default;
 	AppState init();
 	AppState run();

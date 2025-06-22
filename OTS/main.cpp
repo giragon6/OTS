@@ -1,10 +1,10 @@
 #include <iostream>
 #include "App.h"
-//#include <Windows.h>
 
 int main(int argc, char* argv[])
 {
-	App app;
+	Platform* platform = new Platform();
+	App app(*platform);
 	AppState state = app.init();
 
 	if (state == AppState::INIT_ERROR) {
@@ -18,8 +18,4 @@ int main(int argc, char* argv[])
 		std::cerr << "Running failed." << std::endl;
 		return 1;
 	}
-
-	//HDC dc = GetDC(NULL);
-	//COLORREF color = GetPixel(dc, 1, 1);
-	//ReleaseDC(NULL, dc);
 }

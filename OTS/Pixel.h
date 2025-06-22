@@ -1,5 +1,5 @@
 #pragma once
 struct Pixel {
-    short int x, y;
-    short int a, r, g, b;
+    int x, y;
+    unsigned short int a, r, g, b;
 };

@@ -22,5 +22,13 @@ public:
 
 	void push(const Pixel pixel);
 	void push(std::vector<Pixel> pixels);
+	void push(uint32_t pixels[], size_t pixelArraySize);
+
+	static void downscaleWithAveraging(const uint32_t* src,
+		int srcWidth,
+		int srcHeight,
+		uint32_t* dst,
+		int dstWidth,
+		int dstHeight);
 };
 
