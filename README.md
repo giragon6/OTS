@@ -1,3 +1,3 @@
 Record and view your desktop, all within your terminal!
 
-Currently prints a screen of random pixels, features TBA
+Currently prints a low-res image of your desktop at time of program execution
