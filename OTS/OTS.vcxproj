@@ -125,15 +125,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="Controller.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Platform.cpp" />
+    <ClCompile Include="Recorder.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="VideoBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="Controller.h" />
     <ClInclude Include="Pixel.h" />
     <ClInclude Include="Platform.h" />
+    <ClInclude Include="Recorder.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="VideoBuffer.h" />
   </ItemGroup>

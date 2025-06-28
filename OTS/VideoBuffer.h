@@ -1,6 +1,8 @@
 #pragma once
-#include "Pixel.h"
 #include <vector>
+#include <string>
+
+#include "Pixel.h"
 class VideoBuffer
 {
 private:
@@ -17,7 +19,7 @@ public:
 	int getWidth();
 	int getHeight();
 
-	void render();
+	std::string getRender();
 	void empty();
 
 	void push(const Pixel pixel);
@@ -30,5 +32,7 @@ public:
 		uint32_t* dst,
 		int dstWidth,
 		int dstHeight);
+
+	uint32_t* getPixels();
 };
 

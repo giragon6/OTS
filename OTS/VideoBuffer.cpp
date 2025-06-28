@@ -41,10 +41,10 @@ int VideoBuffer::getHeight() {
 	return 1;
 }
 
-void VideoBuffer::render() {
+std::string VideoBuffer::getRender() {
 	if (!buffer || size == 0) {
 		std::cerr << "Error: Buffer is empty or not initialized." << std::endl;
-		return;
+		return "";
 	}
 	std::string screen;
 	screen.reserve(size * 32);
@@ -71,11 +71,11 @@ void VideoBuffer::render() {
 			screen += "\033[48;2;" + std::to_string(bottom_r)
 				+ ";" + std::to_string(bottom_g)
 				+ ";" + std::to_string(bottom_b) + "m";
-			screen += "\xDC";
+			screen += "\xDF";
 		}
 		screen += "\033[0m\n";
 	}
-	std::cout << screen;
+	return screen;
 }
 
 void VideoBuffer::empty() {
@@ -170,4 +170,9 @@ void VideoBuffer::downscaleWithAveraging(
 			dst[y * dstWidth + x] = (avgA << 24) | (avgR << 16) | (avgG << 8) | avgB;
 		}
 	}
+}
+
+uint32_t* VideoBuffer::getPixels()
+{
+	return nullptr;
 }
