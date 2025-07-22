@@ -46,7 +46,7 @@ private:
 	Recorder* recorder;
 	IFrameStream* provider; 
 public:
-	App(Platform platform, IFrameStream* provider);
+	App(Platform platform, IFrameStream* provider, AppMode initialMode);
 	~App() = default;
 	AppState init();
 	AppState run();
@@ -58,6 +58,6 @@ public:
 	//void renderRecordFrame(uint32_t* srcPixels, int srcWidth, int srcHeight, uint32_t* dstPixels, int dstWidth, int dstHeight);
 	void renderFrame(uint32_t* srcPixels, int srcWidth, int srcHeight, uint32_t* dstPixels, int dstWidth, int dstHeight);
 
-	AppState shutdown();
+	void shutdown();
 };
 

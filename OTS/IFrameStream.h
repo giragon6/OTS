@@ -5,12 +5,13 @@
 enum class InputType
 {
 	RECORD,
-	SAVE
+	SAVE,
+	LOAD
 };
 
 class IFrameStream
 {
 public:
-	virtual void getFrame(std::vector<uint32_t>& frame) = 0;
+	virtual int getFrame(std::vector<uint32_t>& frame) = 0;
 	virtual void handleInput(InputType inp) = 0;
 };
