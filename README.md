@@ -15,6 +15,7 @@ OTS takes captures of your desktop and compresses it to an array of pixels, whic
 - Loading from compressed file and playing back video
 
 ## Setup instructions (WINDOWS ONLY):
+- If you don't have it already, download the appropriate release of the [Microsoft Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170) -- libraries from this are needed for the program to work
 - Download the .zip from releases
 - Extract the .zip
 - Run the .exe
